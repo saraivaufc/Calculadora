@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include <QString>
+#include <QPushButton>
 
 namespace Ui {
 class Widget;
@@ -11,8 +12,6 @@ class Widget;
 class Widget : public QWidget
 {
     Q_OBJECT
-    QString pilha1, pilha2 , sinal;
-    bool empilhado;
 
 
 public:
@@ -21,10 +20,11 @@ public:
 
 private:
     Ui::Widget *ui;
+    QPushButton * button;
+
 
 public slots:
     void button_click();
-    void button_sinal();
     void resultado();
     void limpar();
 

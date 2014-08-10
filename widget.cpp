@@ -7,6 +7,11 @@
 #include <QPushButton>
 #include <iostream>
 #include <QList>
+#include <QPalette>
+#include <QResource>
+#include <QtScript/QScriptEngine>
+#include <QtScript/QScriptValue>
+
 
 using namespace std;
 
@@ -15,9 +20,8 @@ Widget::Widget(QWidget *parent) :
     ui(new Ui::Widget)
 {
     ui->setupUi(this);
+    this->button=NULL;
     this->setWindowTitle("Calculadora");
-
-    this->empilhado = false;
 
     QList<QPushButton *> list_num;
     list_num.append(ui->button_0);
@@ -30,19 +34,14 @@ Widget::Widget(QWidget *parent) :
     list_num.append(ui->button_7);
     list_num.append(ui->button_8);
     list_num.append(ui->button_9);
+    list_num.append(ui->button_10);
+    list_num.append(ui->button_11);
+    list_num.append(ui->button_12);
+    list_num.append(ui->button_13);
     list_num.append(ui->button_14);
 
     foreach (QPushButton * i, list_num) {
         connect(i, SIGNAL(clicked()),this , SLOT(button_click()));
-    }
-    QList <QPushButton *> list_sig;
-    list_sig.append(ui->button_10);
-    list_sig.append(ui->button_11);
-    list_sig.append(ui->button_12);
-    list_sig.append(ui->button_13);
-
-    foreach (QPushButton * i, list_sig) {
-        connect(i , SIGNAL(clicked()), this , SLOT(button_sinal()) );
     }
 
     connect(ui->resultado , SIGNAL(clicked()) , this , SLOT(resultado()) );
@@ -55,64 +54,41 @@ Widget::~Widget()
     delete ui;
 }
 
+
+float calcular(QString s){
+    QScriptEngine myEngine;
+    QScriptValue valor = myEngine.evaluate(s);
+    return static_cast<float>(valor.toNumber());
+}
+
+
 void Widget::button_click()
 {
+
+
     QPushButton *  b = dynamic_cast<QPushButton *>(sender());
+
+    this->button = b;
+
     QString str = b->text();
+    QString antes = ui->caixa_texto->text();
 
-    this->pilha1.append(str);
-    ui->caixa_texto->setText(this->pilha1.toLatin1());
+    ui->caixa_texto->setText(antes + str);
 }
-
-void Widget::button_sinal()
-{
-    QPushButton *  b = dynamic_cast<QPushButton *>(sender());
-    QString str = b->text();
-
-    if(this->empilhado == false){
-        this->pilha2 = this->pilha1;
-        this->empilhado = true;
-    }
-    ui->caixa_texto->setText(this->pilha1+str.toLatin1());
-    this->pilha1.clear();
-    this->sinal=str.toLatin1();
-}
-
 
 void Widget::resultado()
 {
-    float a = this->pilha2.toFloat();
-    float b = this->pilha1.toFloat();
 
-    printf("A = %f e B = %f\n" , a , b);
+    QString expresao = ui->caixa_texto->text();
+    ui->caixa_texto->setText(QString::number(calcular(expresao)));
 
 
-    QString str;
-    if(this->sinal.toLatin1() == "+"){
-        str = QString::number(a+b);
-    }else if(this->sinal.toLatin1() == "-"){
-        str = QString::number(a-b);
-    }else if(this->sinal.toLatin1() == "*"){
-        str = QString::number(a*b);
-    }else if(this->sinal.toLatin1() == "/"){
-        str = QString::number(a/b);
-    }
-
-    this->pilha1.clear();
-    this->pilha2.clear();
-    this->pilha2.append(str);
-
-    this->empilhado=true;
-
-    ui->caixa_texto->setText(str);
 }
 
 void Widget::limpar()
 {
-
-    this->pilha1.clear();
-    this->pilha2.clear();
-    this->sinal.clear();
-    ui->caixa_texto->clear();
+    QString text = ui->caixa_texto->text();
+    text.remove(text.length()-1 , text.length());
+    ui->caixa_texto->setText(text);
 }
 

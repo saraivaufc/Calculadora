@@ -1,0 +1,22 @@
+<RCC>
+    <qresource prefix="/new/imagens">
+        <file>imagens/0.png</file>
+        <file>imagens/1.png</file>
+        <file>imagens/2.png</file>
+        <file>imagens/3.png</file>
+        <file>imagens/4.png</file>
+        <file>imagens/5.png</file>
+        <file>imagens/6.png</file>
+        <file>imagens/7.png</file>
+        <file>imagens/8.png</file>
+        <file>imagens/9.png</file>
+        <file>imagens/clear.png</file>
+        <file>imagens/div.png</file>
+        <file>imagens/mult.png</file>
+        <file>imagens/ponto.png</file>
+        <file>imagens/res.png</file>
+        <file>imagens/soma.png</file>
+        <file>imagens/sub.png</file>
+        <file>imagens/icon_title.png</file>
+    </qresource>
+</RCC>

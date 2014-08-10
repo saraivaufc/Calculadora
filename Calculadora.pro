@@ -4,7 +4,7 @@
 #
 #-------------------------------------------------
 
-QT       += core gui
+QT       += core gui script
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -18,6 +18,9 @@ SOURCES += main.cpp\
 HEADERS  += widget.h
 
 FORMS    += widget.ui
+
+RESOURCES += \
+    imagens.qrc
 
 CONFIG += mobility
 MOBILITY = 
